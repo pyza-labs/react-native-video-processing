@@ -571,7 +571,7 @@ public class Trimmer {
 
     WritableMap event = Arguments.createMap();
     
-    bmp = Bitmap.createScaledBitmap(bmp, 400, Math.round(400 * bmp.getHeight() / bmp.getWidth()), true);
+    bmp = Bitmap.createScaledBitmap(bmp, 360, Math.round(360 * bmp.getHeight() / bmp.getWidth()), true);
 
     if ( format == null || (format != null && format.equals("base64")) ) {
       bmp.compress(Bitmap.CompressFormat.PNG, 70, byteArrayOutputStream);
