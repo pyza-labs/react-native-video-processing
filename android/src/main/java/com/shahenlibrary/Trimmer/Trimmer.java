@@ -570,15 +570,17 @@ public class Trimmer {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
     WritableMap event = Arguments.createMap();
+    
+    bmp = Bitmap.createScaledBitmap(bmp, 400, Math.round(400 * bmp.getHeight() / bmp.getWidth()), true);
 
     if ( format == null || (format != null && format.equals("base64")) ) {
-      bmp.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+      bmp.compress(Bitmap.CompressFormat.PNG, 70, byteArrayOutputStream);
       byte[] byteArray = byteArrayOutputStream .toByteArray();
       String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
       event.putString("image", encoded);
     } else if ( format.equals("JPEG") ) {
-      bmp.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+      bmp.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
       byte[] byteArray = byteArrayOutputStream.toByteArray();
 
       File tempFile = createTempFile("jpeg", promise, ctx);

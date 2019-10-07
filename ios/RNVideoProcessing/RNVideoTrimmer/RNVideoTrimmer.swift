@@ -517,11 +517,11 @@ class RNVideoTrimmer: NSObject {
     let sourceURL = getSourceURL(source: source)
     let asset = AVAsset(url: sourceURL)
 
-    var width: CGFloat = 1080
+    var width: CGFloat = 400
     if let _width = maximumSize.object(forKey: "width") as? CGFloat {
       width = _width
     }
-    var height: CGFloat = 1080
+    var height: CGFloat = 400
     if let _height = maximumSize.object(forKey: "height") as? CGFloat {
       height = _height
     }
