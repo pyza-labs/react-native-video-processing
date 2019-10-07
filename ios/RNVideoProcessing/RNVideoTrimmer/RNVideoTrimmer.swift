@@ -442,38 +442,10 @@ class RNVideoTrimmer: NSObject {
       //Remove existing file
       _ = try? manager.removeItem(at: outputURL)
 
-      let compressionEncoder = SDAVAssetExportSession(asset: asset)
-      if compressionEncoder == nil {
-          callback(["Error creating AVAssetExportSession", NSNull()])
-          return
-      }
-      compressionEncoder!.outputFileType = AVFileType.mp4.rawValue
-      compressionEncoder!.outputURL = NSURL.fileURL(withPath: outputURL.path)
-      compressionEncoder!.shouldOptimizeForNetworkUse = true
-      if saveToCameraRoll && saveWithCurrentDate {
-        let metaItem = AVMutableMetadataItem()
-        metaItem.key = AVMetadataKey.commonKeyCreationDate as (NSCopying & NSObjectProtocol)
-        metaItem.keySpace = .common
-        metaItem.value = NSDate()
-        compressionEncoder!.metadata = [metaItem]
-      }
-      compressionEncoder?.videoSettings = [
-          AVVideoCodecKey: AVVideoCodecH264,
-          AVVideoWidthKey: NSNumber.init(value: width!),
-          AVVideoHeightKey: NSNumber.init(value: height!),
-          AVVideoCompressionPropertiesKey: [
-              AVVideoAverageBitRateKey: NSNumber.init(value: averageBitrate),
-              AVVideoProfileLevelKey: AVVideoProfileLevelH264HighAutoLevel
-          ]
-      ]
-      if !removeAudio {
-        compressionEncoder?.audioSettings = [
-            AVFormatIDKey: kAudioFormatMPEG4AAC,
-            AVNumberOfChannelsKey: 1,
-            AVSampleRateKey: 44100,
-            AVEncoderBitRateKey: 128000
-        ]
-      }
+      let compressionEncoder = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetMediumQuality)
+      compressionEncoder?.outputFileType = AVFileType.mp4
+      compressionEncoder?.outputURL = NSURL.fileURL(withPath: outputURL.path)
+      compressionEncoder?.shouldOptimizeForNetworkUse = true
       compressionEncoder!.exportAsynchronously(completionHandler: {
           switch compressionEncoder!.status {
           case .completed:
