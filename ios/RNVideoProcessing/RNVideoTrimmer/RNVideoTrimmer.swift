@@ -489,14 +489,8 @@ class RNVideoTrimmer: NSObject {
     let sourceURL = getSourceURL(source: source)
     let asset = AVAsset(url: sourceURL)
 
-    var width: CGFloat = 360
-    if let _width = maximumSize.object(forKey: "width") as? CGFloat {
-      width = _width
-    }
-    var height: CGFloat = 360
-    if let _height = maximumSize.object(forKey: "height") as? CGFloat {
-      height = _height
-    }
+    let width: CGFloat = 360
+    let height: CGFloat = 360
 
     let imageGenerator = AVAssetImageGenerator(asset: asset)
     imageGenerator.maximumSize = CGSize(width: width, height: height)
@@ -509,7 +503,7 @@ class RNVideoTrimmer: NSObject {
     do {
       let imageRef = try imageGenerator.copyCGImage(at: timestamp, actualTime: nil)
       let image = UIImage(cgImage: imageRef)
-      if ( format == "base64" ) {
+      if ( format.isEmpty || format == "base64" ) {
         let imgData = image.pngData()
         let base64string = imgData?.base64EncodedString(options: Data.Base64EncodingOptions.init(rawValue: 0))
         if base64string != nil {
