@@ -503,7 +503,7 @@ class RNVideoTrimmer: NSObject {
     do {
       let imageRef = try imageGenerator.copyCGImage(at: timestamp, actualTime: nil)
       let image = UIImage(cgImage: imageRef)
-      if ( format.isEmpty || format == "base64" ) {
+      if (format.isEmpty || format == "base64") {
         let imgData = image.pngData()
         let base64string = imgData?.base64EncodedString(options: Data.Base64EncodingOptions.init(rawValue: 0))
         if base64string != nil {
